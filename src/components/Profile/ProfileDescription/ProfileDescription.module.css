@@ -1,0 +1,12 @@
+.avatar img {
+    padding: 10px;
+    float: left;
+    width: 250px;
+}
+  
+.description ul{list-style: none;}
+
+.all_description {
+    grid-area: desc;
+    width: 100%;
+}

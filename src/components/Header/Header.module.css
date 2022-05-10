@@ -1,0 +1,19 @@
+.app_header {
+    grid-area: h;
+    background-color: #2d203a;
+    color: white;
+  }
+  
+  img{
+    width: 100px;
+  }
+
+
+.loginBLock{
+  float: right;
+}
+
+.loginBLock a {
+  color: white;
+  text-decoration: none;
+}

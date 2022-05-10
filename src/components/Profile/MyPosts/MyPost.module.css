@@ -1,0 +1,11 @@
+.item{
+    color: brown;
+}
+
+.item img{
+    width: 50px;
+}
+
+.my_posts {
+    grid-area: my_posts;
+}
