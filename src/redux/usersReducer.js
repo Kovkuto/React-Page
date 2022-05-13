@@ -11,7 +11,7 @@ const SET_FOLLOW_IN_PROGRESS = "SET-IS-FOLLOW-IN-PROGRESS"
 let initialState = {
     usersData: [],
     pageSize: 5,
-    totalCount: 0,
+    totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
     followInProgress: []
@@ -50,7 +50,7 @@ const usersReducer = (state = initialState, action) => {
         case SET_TOTAL_COUNT:
             return {
                 ...state,
-                totalCount: action.totalCount
+                totalUsersCount: action.totalUsersCount
             }
         case SET_IS_FETCHING:
             return {
@@ -89,9 +89,9 @@ export const setCurrentPage = (currentPage) => ({
     currentPage: currentPage
 })
 
-export const setTotalCount = (totalCount) => ({
+export const setTotalCount = (totalUsersCount) => ({
     type: SET_TOTAL_COUNT,
-    totalCount: totalCount
+    totalUsersCount: totalUsersCount
 })
 
 export const setIsFetching = (isFetching) => ({

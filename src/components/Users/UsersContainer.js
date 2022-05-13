@@ -3,6 +3,7 @@ import { follow, unfollow, setFollowInProgress, setCurrentPage, getUsers} from "
 import Users from "./Users";
 import React from "react";
 import { compose } from "redux";
+import { getCurrentPage, getFollowInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsersData } from "../../redux/selectors/usersSelectors";
 
 class UsersContainer extends React.Component {
     componentDidMount = () => {
@@ -14,14 +15,13 @@ class UsersContainer extends React.Component {
     }
 }
 
-
 let mapStateToProps = (state) => ({
-    usersData: state.usersPage.usersData,
-    pageSize: state.usersPage.pageSize,
-    totalCount: state.usersPage.totalCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followInProgress: state.usersPage.followInProgress,
+    usersData: getUsersData(state),
+    pageSize: getPageSize(state),
+    totalCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followInProgress: getFollowInProgress(state),
 })
 
 export default compose(
