@@ -26,4 +26,3 @@ export const getCurrentPage = createSelector(getCurrentPageSelector, currentPage
 export const getIsFetching = createSelector(getIsFetchingSelector, isFetching => isFetching)
 
 export const getFollowInProgress = createSelector(getFollowInProgressSelector, followInProgress => followInProgress)
-
