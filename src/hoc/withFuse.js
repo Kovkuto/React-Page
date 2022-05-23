@@ -3,16 +3,22 @@ import React from "react"
 const withFuse = (Component) => {
     class WithFuse extends React.Component{
         state = {
-            hasError: false
+            err: null,
+            errInfo: null
         }
         componentDidCatch(err, errInfo){
             this.setState({
-                hasError: true
+                err: true,
+                errInfo: errInfo
             })
             console.log(err);
         }
         render(){
-            if (this.state.hasError) return <h1>Something went wrong...</h1>
+            if (this.state.err) return (<>
+            <h1>Something went wrong...</h1>
+            <h2>{this.state.err}</h2>
+            <p>{this.state.errInfo}</p>
+            </>)
             return <Component {...this.props}/>
         }
     }
