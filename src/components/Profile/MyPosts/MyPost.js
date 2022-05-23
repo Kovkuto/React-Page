@@ -1,25 +1,23 @@
-import React from "react";
+import React, { memo } from "react";
 import { reduxForm } from "redux-form";
 import { Field } from "redux-form";
 import { requiredField } from "../../../utils/validators";
 import { Textarea } from "../../common/FormsControls/FormsControls";
 import Post from './Post/Post'
 
-function MyPost(props) {
-
-    let myPostsElements = props.myPostsData.map(post => {
-        return <Post key={post.id} id={post.id} text={post.text} likes={post.likes} />
-    })
-
+const MyPost = (props) => {
     const addPost = (text) => {
         props.addPost(text)
     }
-
+    
     const onSubmit = (formData) => {
         addPost(formData.postText)
         console.log(formData);
-    } 
-
+    }
+    console.log("RENDER")
+    let myPostsElements = props.myPostsData.map(post => {
+        return <Post key={post.id} id={post.id} text={post.text} likes={post.likes} />
+    })
     return (
         <div className="my_posts">
             <h3>My Posts:</h3>

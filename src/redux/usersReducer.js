@@ -113,8 +113,7 @@ export const getUsers = (currentPage, pageSize) => (dispatch) => {
             dispatch(setUsers(data.items))
             dispatch(setIsFetching(false))
         })
-        .catch(err => console.log(err.response.status))
-
+        .catch(err => console.log(err))
 }
 
 export const follow = (id) => (dispatch) => {

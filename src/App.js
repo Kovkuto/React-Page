@@ -15,6 +15,7 @@ import { initialzeApp } from './redux/appReducer';
 import Preloader from './components/common/Preloader/Preloader';
 import { WithRouter } from './hoc/withRouter';
 import { compose } from 'redux';
+import withFuse from './hoc/withFuse';
 
 
 
@@ -49,7 +50,9 @@ const mapStateToProps = (state) => ({
     initialized: state.app.initialized
 })
 
+
 export default compose(
     connect(mapStateToProps, {initialzeApp}),
-    WithRouter
+    WithRouter,
+    withFuse
 )(App);

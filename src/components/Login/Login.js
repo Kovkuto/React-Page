@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
 import { login } from "../../redux/authReducer";
 import { minLength, requiredField } from "../../utils/validators";
-import { Input } from "../common/FormsControls/FormsControls";
+import { handleErrorOnElement } from "../common/FormsControls/FormsControls";
 import classes from "./Login.module.css"
 
 const Login = (props) => {
@@ -26,13 +26,13 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name="email" component={Input} placeholder={"Email"} validate={requiredField} type="email"/>
+                <Field name="email" component={handleErrorOnElement("input")} placeholder={"Email"} validate={requiredField} type="email"/>
             </div>
             <div>
-                <Field name="password" component={Input} placeholder={"Password"} validate={[minLenght8, requiredField]} type="password"/>
+                <Field name="password" component={handleErrorOnElement("input")} placeholder={"Password"} validate={[minLenght8, requiredField]} type="password"/>
             </div>
             <div>
-                <Field name="rememberMe" component={Input} type={"checkbox"} /> remember me
+                <Field name="rememberMe" component={handleErrorOnElement("input")} type={"checkbox"} /> remember me
             </div>
                 {props.error 
                     ? <div className={classes.formError}>{props.error}</div>

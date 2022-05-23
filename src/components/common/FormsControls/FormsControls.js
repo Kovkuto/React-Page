@@ -30,18 +30,15 @@ export const Input = ({input, meta, ...props}) => {
 }
 
 export const handleErrorOnElement = (element) => ({input, meta, ...props}) => {
-    const finalProps = {
-        ...input,
-        ...props
-    }
+    const El = element
     const hasError = meta.error && meta.touched
 
     return (
-        <div className={`${classes.formControl} ${hasError ? classes.error: ""}`}>
+        <div className={classes.formControl}>
             <div>
-                {React.createElement(element, {...finalProps})}
+                <El {...input} {...props} className={hasError ? classes.error: ""}/>
             </div>
-            {hasError && <span className={classes.error}>{meta.error}</span>}
+            {hasError && <span className={classes.error__span}>{meta.error}</span>}
         </div>
     )
 }
