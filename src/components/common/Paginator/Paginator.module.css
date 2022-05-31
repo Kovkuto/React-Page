@@ -1,0 +1,10 @@
+.selected {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.unselected {
+    font-size: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+}
