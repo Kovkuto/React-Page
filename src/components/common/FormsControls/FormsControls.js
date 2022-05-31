@@ -1,16 +1,17 @@
 import React from "react"
+import { Field } from "redux-form"
 import classes from "./FormsControls.module.css"
 
-export const Textarea = ({ input, meta, ...props }) => {
+export const Textarea = ({ input, meta: {touched, error}, ...props }) => {
 
-    const hasError = meta.error && meta.touched
+    const hasError = error && touched
 
     return (
         <div className={classes.formControl}>
             <div>
                 <textarea {...input} {...props} className={hasError ? `${classes.error}` : ""}/>
             </div>
-            {hasError && <span className={classes.error__span}>{meta.error}</span>}
+            {hasError && <span className={classes.error__span}>{error}</span>}
         </div>
     )
 }
@@ -42,3 +43,8 @@ export const handleErrorOnElement = (element) => ({input, meta, ...props}) => {
         </div>
     )
 }
+
+export const createField = (name, component, props={}, validators=[], children) => <div>
+    <Field name={name} component={component} validate={validators} {...props}/>
+    {children}
+</div>

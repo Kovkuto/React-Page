@@ -5,7 +5,7 @@ import { requiredField } from "../../../utils/validators";
 import { Textarea } from "../../common/FormsControls/FormsControls";
 import Post from './Post/Post'
 
-const MyPost = (props) => {
+const MyPost = React.memo(props => {
     const addPost = (text) => {
         props.addPost(text)
     }
@@ -14,7 +14,7 @@ const MyPost = (props) => {
         addPost(formData.postText)
         console.log(formData);
     }
-    console.log("RENDER")
+    
     let myPostsElements = props.myPostsData.map(post => {
         return <Post key={post.id} id={post.id} text={post.text} likes={post.likes} />
     })
@@ -25,7 +25,7 @@ const MyPost = (props) => {
             {myPostsElements}
         </div>
     )
-}
+})
 
 export const PostForm = (props) => {
     return (

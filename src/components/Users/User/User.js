@@ -14,9 +14,9 @@ const User = (props) => {
         </NavLink>
         {props.followed
           ? <button disabled={props.followInProgress.some(id => id === props.id)}
-            onClick={() => { props.unfollow(props.id) }}>Unfollow</button>
+            onClick={() => { props.followUnfollowFlow(props.id, false) }}>Unfollow</button>
           : <button disabled={props.followInProgress.some(id => id === props.id)}
-            onClick={() => { props.follow(props.id) }}>Follow</button>
+            onClick={() => { props.followUnfollowFlow(props.id, true) }}>Follow</button>
         }
       </div>
       <div className={classes.all_description}>

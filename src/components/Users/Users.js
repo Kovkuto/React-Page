@@ -1,10 +1,17 @@
-import React from "react";
-import classes from "./Users.module.css"
+import React, { useEffect } from "react";
 import User from "./User/User"
 import Preloader from "../common/Preloader/Preloader";
-
+import { compose } from "redux";
+import { followUnfollowFlow, setFollowInProgress, setCurrentPage, getUsers} from "../../redux/usersReducer";
+import { getCurrentPage, getFollowInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsersData } from "../../redux/selectors/usersSelectors";
+import { connect } from "react-redux";
+import Paginator from "../common/Paginator/Paginator";
 
 const Users = (props) => {
+    useEffect(() => {
+        props.getUsers(props.currentPage, props.pageSize)
+    }, [props.currentPage])
+
     let usersItems = props.usersData.map(user => {
         return <User
             key={user.id}
@@ -12,34 +19,13 @@ const Users = (props) => {
             follow={props.follow}
             unfollow={props.unfollow}
             setFollowInProgress={props.setFollowInProgress}
+            followUnfollowFlow={props.followUnfollowFlow}
             {...user}
         />
     })
-    let pagesCount = Math.ceil(props.totalCount / props.pageSize)
-    let totalPages = []
-    for (let i = 1; i <= pagesCount; i++) {
-        totalPages.push(i)
-    }
-    let pages = []
-    if (props.currentPage > 3) {
-        pages = totalPages.slice(props.currentPage - 2, props.currentPage + 2)
-        pages.unshift("<--")
-    } else {
-        pages = totalPages.slice(0, props.currentPage + 2)
-    }
-    let pagesItems = pages.map(pageNumber => <span
-        key={pageNumber}
-        className={pageNumber === props.currentPage ? classes.selected : classes.unselected}
-        onClick={() => {
-            props.setCurrentPage(pageNumber === "<--" ? 1 : pageNumber)
-            props.getUsers(pageNumber, props.pageSize)
-        }}
-    >
-        {pageNumber}
-    </span>)
     return (
         <div>
-            {pagesItems}
+            <Paginator pageSize={props.pageSize} currentPage={props.currentPage} setCurrentPage={props.setCurrentPage} totalCount={props.totalCount}/>
             {props.isFetching ? <Preloader /> : null}
             {usersItems}
         </div>
@@ -47,5 +33,22 @@ const Users = (props) => {
 }
 
 
+let mapStateToProps = (state) => ({
+    usersData: getUsersData(state),
+    pageSize: getPageSize(state),
+    totalCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followInProgress: getFollowInProgress(state),
+})
 
-export default Users
+export default compose(
+    connect(mapStateToProps,
+        {
+            followUnfollowFlow,
+            setCurrentPage,
+            setFollowInProgress,
+            getUsers
+        }
+    )
+)(Users)

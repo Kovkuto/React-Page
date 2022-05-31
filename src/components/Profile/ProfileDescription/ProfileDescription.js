@@ -1,7 +1,7 @@
 import React from "react"
 import Preloader from "../../common/Preloader/Preloader"
 import classes from "./ProfileDescription.module.css"
-import ProfileStatus from "../ProfileStatus/ProfileStatus";
+import ProfileStatus from "../ProfileStatus";
 
 
 

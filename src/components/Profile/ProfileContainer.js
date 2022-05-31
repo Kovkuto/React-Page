@@ -10,8 +10,9 @@ import { WithRouter } from "../../hoc/withRouter";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        this.props.getProfile(RegExp("[0-9]+").exec(this.props.pathname)[0])
-        this.props.getStatus(RegExp("[0-9]+").exec(this.props.pathname)[0])
+        const id = this.props.id ? this.props.id : RegExp("[0-9]+").exec(this.props.pathname)[0]
+        this.props.getProfile(id)
+        this.props.getStatus(id) 
     }
     render() {
         return (
