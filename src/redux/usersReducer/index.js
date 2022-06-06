@@ -1,1 +1,1 @@
-export {default} from "./usersReducer"
+export {default, getUsers, followUnfollowFlow, setCurrentPage, setFollowInProgress} from "./usersReducer"

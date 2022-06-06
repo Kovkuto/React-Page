@@ -3,12 +3,10 @@ import Navbar from "../Navbar/Navbar";
 import News from "../News/News";
 import Settings from "../Settings/Settings";
 import { Routes, Route } from 'react-router-dom';
-import DialogsContainer from "../Dialogs/DialogsContainer";
 import Users from "../Users/Users";
-import ProfileContainer from '../Profile/ProfileContainer';
 import HeaderContainer from '../Header/HeaderContainer';
 import Login from '../Login/Login';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { initialzeApp } from '../../redux/appReducer';
 import Preloader from '../common/Preloader/Preloader';
@@ -19,6 +17,8 @@ import { BrowserRouter } from "react-router-dom"
 import store from "../../redux/redux-store"
 import { Provider } from "react-redux";
 
+const ProfileContainer = lazy(() => import('../Profile/ProfileContainer'))
+const DialogsContainer = lazy(() => import("../Dialogs/DialogsContainer"))
 
 class App extends React.Component {
     componentDidMount() {
@@ -31,15 +31,17 @@ class App extends React.Component {
                 <HeaderContainer />
                 <Navbar />
                 <div className="app_wrapper__content">
-                    <Routes>
-                        <Route path="/profile/me" element={<ProfileContainer id={this.props.id} />} />
-                        <Route path="/profile/:id" element={<ProfileContainer />} />
-                        <Route path="/dialogs/*" element={<DialogsContainer />} />
-                        <Route path="/news/" element={<News />} />
-                        <Route path="/find-users/" element={<Users />} />
-                        <Route path="/settings/" element={<Settings />} />
-                        <Route path="/login" element={<Login />} />
-                    </Routes>
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <Routes>
+                            <Route path="/profile/me" element={<ProfileContainer id={this.props.id} />} />
+                            <Route path="/profile/:id" element={<ProfileContainer />} />
+                            <Route path="/dialogs/*" element={<DialogsContainer />} />
+                            <Route path="/news/" element={<News />} />
+                            <Route path="/find-users/" element={<Users />} />
+                            <Route path="/settings/" element={<Settings />} />
+                            <Route path="/login" element={<Login />} />
+                        </Routes>
+                    </Suspense>
                 </div>
             </div>
         )
