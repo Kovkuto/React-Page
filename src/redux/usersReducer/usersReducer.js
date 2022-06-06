@@ -1,5 +1,5 @@
-import { usersAPI } from "../api/api"
-import { updateObjectInArray } from "../utils/object-helpers"
+import { usersAPI } from "../../api/api"
+import { updateObjectInArray } from "../../utils/object-helpers"
 
 const SET_FOLLOWED_USER = "SET-FOLLOWED-USER"
 const SET_USERS = "SET-USERS"
@@ -27,7 +27,7 @@ const usersReducer = (state = initialState, action) => {
         case SET_FOLLOWED_USER:
             return {
                 ...state,
-                usersData: updateObjectInArray(state.usersData, action.id, "id", {followed: action.followed})
+                usersData: updateObjectInArray(state.usersData, action.id, "id", { followed: action.followed })
             }
         case SET_CURRENT_PAGE:
             let newState = {
@@ -91,14 +91,13 @@ export const setFollowInProgress = (isFetching, userId) => ({
 
 export const getUsers = (currentPage, pageSize) => async (dispatch) => {
     dispatch(setIsFetching(true))
-    try {
-        const data = await usersAPI.getUsers(currentPage, pageSize)
-        dispatch(setTotalCount(data.totalCount))
-        dispatch(setUsers(data.items))
-        dispatch(setIsFetching(false))
-    } catch (err) {
-        console.log(err);
-    }
+    const data = await usersAPI.getUsers(currentPage, pageSize)
+    dispatch(setTotalCount(data.totalCount))
+    dispatch(setUsers(data.items))
+    dispatch(setIsFetching(false))
+    return new Promise((resolve) => {
+        resolve()
+    })
 }
 
 export const followUnfollowFlow = (id, followed) => async (dispatch) => {
