@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/Kovkuto/React-Page/static/css/main.bbabaaa0.css",
-    "main.js": "/Kovkuto/React-Page/static/js/main.39acb9ce.js",
-    "static/css/778.85fb7a45.chunk.css": "/Kovkuto/React-Page/static/css/778.85fb7a45.chunk.css",
-    "static/js/778.9b9226bf.chunk.js": "/Kovkuto/React-Page/static/js/778.9b9226bf.chunk.js",
-    "static/css/289.d1d0b4f2.chunk.css": "/Kovkuto/React-Page/static/css/289.d1d0b4f2.chunk.css",
-    "static/js/289.163d74f6.chunk.js": "/Kovkuto/React-Page/static/js/289.163d74f6.chunk.js",
-    "index.html": "/Kovkuto/React-Page/index.html",
-    "main.bbabaaa0.css.map": "/Kovkuto/React-Page/static/css/main.bbabaaa0.css.map",
-    "main.39acb9ce.js.map": "/Kovkuto/React-Page/static/js/main.39acb9ce.js.map",
-    "778.85fb7a45.chunk.css.map": "/Kovkuto/React-Page/static/css/778.85fb7a45.chunk.css.map",
-    "778.9b9226bf.chunk.js.map": "/Kovkuto/React-Page/static/js/778.9b9226bf.chunk.js.map",
-    "289.d1d0b4f2.chunk.css.map": "/Kovkuto/React-Page/static/css/289.d1d0b4f2.chunk.css.map",
-    "289.163d74f6.chunk.js.map": "/Kovkuto/React-Page/static/js/289.163d74f6.chunk.js.map"
+    "main.css": "/React-Page/static/css/main.bbabaaa0.css",
+    "main.js": "/React-Page/static/js/main.6eb3a9cc.js",
+    "static/css/778.85fb7a45.chunk.css": "/React-Page/static/css/778.85fb7a45.chunk.css",
+    "static/js/778.9b9226bf.chunk.js": "/React-Page/static/js/778.9b9226bf.chunk.js",
+    "static/css/289.d1d0b4f2.chunk.css": "/React-Page/static/css/289.d1d0b4f2.chunk.css",
+    "static/js/289.163d74f6.chunk.js": "/React-Page/static/js/289.163d74f6.chunk.js",
+    "index.html": "/React-Page/index.html",
+    "main.bbabaaa0.css.map": "/React-Page/static/css/main.bbabaaa0.css.map",
+    "main.6eb3a9cc.js.map": "/React-Page/static/js/main.6eb3a9cc.js.map",
+    "778.85fb7a45.chunk.css.map": "/React-Page/static/css/778.85fb7a45.chunk.css.map",
+    "778.9b9226bf.chunk.js.map": "/React-Page/static/js/778.9b9226bf.chunk.js.map",
+    "289.d1d0b4f2.chunk.css.map": "/React-Page/static/css/289.d1d0b4f2.chunk.css.map",
+    "289.163d74f6.chunk.js.map": "/React-Page/static/js/289.163d74f6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bbabaaa0.css",
-    "static/js/main.39acb9ce.js"
+    "static/js/main.6eb3a9cc.js"
   ]
 }
