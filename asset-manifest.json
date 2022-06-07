@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.bbabaaa0.css",
-    "main.js": "/static/js/main.522cf989.js",
-    "static/css/778.85fb7a45.chunk.css": "/static/css/778.85fb7a45.chunk.css",
-    "static/js/778.9b9226bf.chunk.js": "/static/js/778.9b9226bf.chunk.js",
-    "static/css/289.d1d0b4f2.chunk.css": "/static/css/289.d1d0b4f2.chunk.css",
-    "static/js/289.163d74f6.chunk.js": "/static/js/289.163d74f6.chunk.js",
-    "index.html": "/index.html",
-    "main.bbabaaa0.css.map": "/static/css/main.bbabaaa0.css.map",
-    "main.522cf989.js.map": "/static/js/main.522cf989.js.map",
-    "778.85fb7a45.chunk.css.map": "/static/css/778.85fb7a45.chunk.css.map",
-    "778.9b9226bf.chunk.js.map": "/static/js/778.9b9226bf.chunk.js.map",
-    "289.d1d0b4f2.chunk.css.map": "/static/css/289.d1d0b4f2.chunk.css.map",
-    "289.163d74f6.chunk.js.map": "/static/js/289.163d74f6.chunk.js.map"
+    "main.css": "/React-Page/static/css/main.bbabaaa0.css",
+    "main.js": "/React-Page/static/js/main.802bd829.js",
+    "static/css/778.85fb7a45.chunk.css": "/React-Page/static/css/778.85fb7a45.chunk.css",
+    "static/js/778.9b9226bf.chunk.js": "/React-Page/static/js/778.9b9226bf.chunk.js",
+    "static/css/289.d1d0b4f2.chunk.css": "/React-Page/static/css/289.d1d0b4f2.chunk.css",
+    "static/js/289.163d74f6.chunk.js": "/React-Page/static/js/289.163d74f6.chunk.js",
+    "index.html": "/React-Page/index.html",
+    "main.bbabaaa0.css.map": "/React-Page/static/css/main.bbabaaa0.css.map",
+    "main.802bd829.js.map": "/React-Page/static/js/main.802bd829.js.map",
+    "778.85fb7a45.chunk.css.map": "/React-Page/static/css/778.85fb7a45.chunk.css.map",
+    "778.9b9226bf.chunk.js.map": "/React-Page/static/js/778.9b9226bf.chunk.js.map",
+    "289.d1d0b4f2.chunk.css.map": "/React-Page/static/css/289.d1d0b4f2.chunk.css.map",
+    "289.163d74f6.chunk.js.map": "/React-Page/static/js/289.163d74f6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bbabaaa0.css",
-    "static/js/main.522cf989.js"
+    "static/js/main.802bd829.js"
   ]
 }
