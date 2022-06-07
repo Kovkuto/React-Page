@@ -3,8 +3,6 @@ import Preloader from "../../common/Preloader/Preloader"
 import classes from "./ProfileDescription.module.css"
 import ProfileStatus from "../ProfileStatus";
 
-
-
 function ProfileDescription(props) {
     if (!props.currentProfile.userId) {
         return <Preloader />
@@ -14,6 +12,12 @@ function ProfileDescription(props) {
         photo = props.currentProfile.photos.large
     } else {
         photo = "https://media.istockphoto.com/photos/very-closeup-view-of-amazing-domestic-pet-in-mirror-round-fashion-is-picture-id1281804798?k=20&m=1281804798&s=612x612&w=0&h=gN9-n0NVMyyQ0GYYoEqPSPCXVZwkCZbRummxgqhxOIU="
+    }
+
+    const onSetPhotoSelected = (e) => {
+        if (e.target.files.length) {
+            props.setPhoto(e.target.files[0])
+        }
     }
 
     return (
@@ -28,6 +32,7 @@ function ProfileDescription(props) {
                         <li>Status: <ProfileStatus status={props.status} updateStatus={props.updateStatus}/></li>
                     </ul>
                 </div>
+                {props.id && <input type="file" onChange={onSetPhotoSelected}/>}
             </div>
     )
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Profile from "./Profile";
-import { getProfile, getStatus, updateStatus } from "../../redux/profileReducer";
+import { getProfile, getStatus, setPhoto, updateStatus } from "../../redux/profileReducer";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
 import Preloader from "../common/Preloader/Preloader";
@@ -36,7 +36,8 @@ export default compose(
     connect(mapStateToProps, {
         getProfile,
         getStatus,
-        updateStatus
+        updateStatus,
+        setPhoto
     }),
     WithRouter
 )(ProfileContainer)

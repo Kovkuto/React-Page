@@ -4,7 +4,6 @@ import './index.css';
 import MainApp from './components/App/App';
 
 
-
 ReactDOM.render(
     <MainApp />,
     document.getElementById('root')

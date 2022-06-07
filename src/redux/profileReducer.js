@@ -5,6 +5,7 @@ const SET_CURRENT_PROFILE = "react_one/profileReducer/SET-CURRENT-PROFILE"
 const SET_STATUS = "react_one/profileReducer/SET-STATUS"
 const SET_IS_FETCHING = "react_one/profileReducer/SET_IS_FETCHING"
 const DELETE_POST = "react_one/profileReducer/DELETE-POST"
+const SAVE_PHOTO_SUCCESS = "SAVE-PHOTO-SUCCESS"
 
 let initialState = {
     currentProfile: {},
@@ -47,6 +48,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 myPostsData: state.myPostsData.filter(post => post.id !== action.id)
             }
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...state,
+                currentProfile: {...state.currentProfile, photos: action.photos}
+            }
         default:
             return state
     }
@@ -73,6 +79,11 @@ export const setIsFetching = (isFetching) => ({
 export const deletePost = (id) => ({
     type: DELETE_POST,
     id
+})
+
+export const savePhotoSuccess = (photos) => ({
+    type: SAVE_PHOTO_SUCCESS,
+    photos
 })
 
 export const getProfile = (id) => async (dispatch) => {
@@ -110,5 +121,16 @@ export const updateStatus = (status) => async (dispatch) => {
     }
 }
 
+export const setPhoto = (file) => async (dispatch) => {
+    try {
+        const response = await profileAPI.setPhoto(file)
+
+        if (response.data.resultCode === 0) {
+            dispatch(savePhotoSuccess(response.data.data.photos))
+        }
+    } catch (error) {
+        console.error(error);
+    }
+} 
 
 export default profileReducer

@@ -2,44 +2,46 @@ import moxios from "moxios";
 import { getUsers } from "./usersReducer";
 import store from "../redux-store"
 import axios from "axios";
-
-let expectedState = {
-    usersData: [{
-        userId: 1,
-        name: "Nikita"
-    }],
-    pageSize: 5,
-    totalUsersCount: 10,
-    currentPage: 1,
-    isFetching: false,
-    followInProgress: []
-}
+import { instance } from "../../api/api";
 
 
-describe.skip('usersReduce', () => {
-    beforeEach(() => {
-        moxios.install(axios)
+describe('usersReduce', () => {
+    beforeEach(function () {
+        moxios.install(instance)
     })
 
-    afterEach(() => {
-        moxios.uninstall()
+    afterEach(function () {
+        moxios.uninstall(instance)
     })
 
     test('should fetch users correctly', async () => {
+        const expectedState = {
+            usersData: [{
+                userId: 1,
+                name: "Nikita"
+            }],
+            pageSize: 5,
+            totalUsersCount: 10,
+            currentPage: 1,
+            isFetching: false,
+            followInProgress: []
+        }
         moxios.wait(() => {
-            let request = moxios.requests.get("get", "https://social-network.samuraijs.com/api/1.0/users?page=1&count=5")
+            let request = moxios.requests.get("get", "users?page=1&count=5")
             request.respondWith(
                 {
-                    items: [{
-                        userId: 1,
-                        name: "Nikita",
-                    }],
-                    totalCount: 10
+                    status: 200,
+                    response: {
+                        items: [{
+                            userId: 1,
+                            name: "Nikita",
+                        }],
+                        totalCount: 10,
+                    }
                 })
         })
-        moxios.stubRequest("https://social-network.samuraijs.com/api/1.0/users?page=1&count=5")
-        store.dispatch(getUsers(1, 5)).then(() => {})
+        await store.dispatch(getUsers(1, 5))
         const newState = store.getState().usersPage
-        console.log(newState)
+        expect(newState).toEqual(expectedState)
     })
 })
