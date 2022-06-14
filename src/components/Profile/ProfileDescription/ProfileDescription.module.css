@@ -3,8 +3,14 @@
     float: left;
     width: 250px;
 }
+
+.form_control {
+    float: left;
+}
   
-.description ul{list-style: none;}
+.description ul{
+    list-style: none;
+}
 
 .all_description {
     grid-area: desc;

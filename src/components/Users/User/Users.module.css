@@ -1,0 +1,28 @@
+.all_items {
+    display: grid;
+    grid-template-areas: "i-b a-d";
+    grid-auto-columns: 100px 4fr;
+    padding-bottom: 10px;
+    grid-auto-rows: 175px;
+    margin-left: 5%;
+}
+
+.img_button{
+    grid-area: i-b;
+    width: 100px;
+    justify-self: self-end;
+}
+
+.img_button img{
+    height: 140px;
+}
+
+.all_description{
+    grid-area: a-d;
+    color: aliceblue;
+    background-color: #282c34;
+    border-radius: 10px;
+    justify-self: auto;
+    max-width: 750px;
+    margin-left: 5px;
+}

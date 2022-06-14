@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import classes from "./Paginator.module.css"
 
@@ -18,9 +19,14 @@ const Paginator = ({totalCount, pageSize, currentPage, setCurrentPage}) => {
     } else {
         pages = totalPages.slice(0, 3)
     }
+    
+    const pageClass = (pageNumber) => classNames({
+        [classes.selected]: pageNumber === currentPage,
+        [classes.unselected]: pageNumber !== currentPage
+    })
     return pages.map(pageNumber => <span
         key={pageNumber}
-        className={pageNumber === currentPage ? classes.selected : classes.unselected}
+        className={pageClass(pageNumber)}
         onClick={() => setCurrentPage(pageNumber === "<--" ? 1 : pageNumber)}
         >
         {pageNumber}

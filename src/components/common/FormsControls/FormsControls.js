@@ -45,6 +45,6 @@ export const handleErrorOnElement = (element) => ({input, meta, ...props}) => {
 }
 
 export const createField = (name, component, props={}, validators=[], children) => <div>
-    <Field name={name} component={component} validate={validators} {...props}/>
     {children}
+    <Field name={name} component={component} validate={validators} {...props}/>
 </div>

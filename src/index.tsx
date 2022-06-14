@@ -1,11 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import {render} from 'react-dom';
 import './index.css';
-import MainApp from './components/App/App';
+import App from './components/App';
 
-
-ReactDOM.render(
-    <MainApp />,
+render(
+    <App />,
     document.getElementById('root')
 )
 
