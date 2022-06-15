@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { IPhotos } from "../../../redux/profileReducer";
-import classes from "../Users.module.css";
+import classes from "./User.module.css";
 
-interface IUserProps {
+interface Props {
   id: number,
   photos: IPhotos,
   followed: boolean,
@@ -13,7 +13,7 @@ interface IUserProps {
   status: string 
 }
 
-const User = ({id, photos, followed, followInProgress, followUnfollowFlow, name, status}: IUserProps) => {
+const User: React.FC<Props> = ({id, photos, followed, followInProgress, followUnfollowFlow, name, status}) => {
   return (
     <div className={classes.all_items}>
       <div className={classes.img_button}>

@@ -9,7 +9,7 @@ import { reducer as formReducer} from "redux-form";
 import appReducer from "./appReducer";
 import { configureStore } from "@reduxjs/toolkit";
 
-export let reducers = combineReducers({
+export let rootReducers = combineReducers({
     app: appReducer,
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
@@ -21,19 +21,21 @@ export let reducers = combineReducers({
 
 
 const store = configureStore({
-  reducer: reducers,
+  reducer: rootReducers,
   middleware: [thunkMiddleware]
 })
 
 export const createTestStore = (initialState={}) => {
   return configureStore({
-    reducer: reducers,
+    reducer: rootReducers,
     middleware: [thunkMiddleware],
     preloadedState: initialState
   })
 }
 
-let s = store.getState()
+// @ts-ignore
+window.store = store
 
-export type StoreType = typeof s
+export type StateType = ReturnType<typeof rootReducers>
+
 export default store

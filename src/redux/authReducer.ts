@@ -1,7 +1,8 @@
+import { ResultCodesForCaptcha } from './../api/api';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { reset } from "redux-form"
 import { stopSubmit } from "redux-form"
-import { authAPI, securityAPI } from "../api/api"
+import { authAPI, ResultCodes, securityAPI } from "../api/api"
 
 
 let initialState = {
@@ -50,8 +51,8 @@ export const {getCaptchaUrlSuccess, setAuthUserData} = authSlice.actions
 export const auth = () => async (dispatch: Function) => {
     try{
         const response = await authAPI.me()
-        if (response.data.resultCode === 0) {
-            let { email, id, login } = response.data.data
+        if (response.resultCode === ResultCodes.Success) {
+            let { email, id, login } = response.data
             dispatch(setAuthUserData(id, email, login, true))
         }
     } catch(err) {
@@ -62,10 +63,10 @@ export const auth = () => async (dispatch: Function) => {
 export const login = (email: string, password: string, rememberMe: boolean, captcha: any) => async (dispatch: Function) => {
     try {
         const data = await authAPI.login(email, password, rememberMe, captcha)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(auth()).then()
         } else {
-            if (data.resultCode === 10) {
+            if (data.resultCode === ResultCodesForCaptcha.CaptchaIsRequired) {
                 console.log("captcha");
                 dispatch(getCaptcha())
             }
@@ -80,7 +81,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 export const logout = () => async (dispatch: Function) => {
     try{
         const data = await authAPI.logout()
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(setAuthUserData(null, null, null, false))
             dispatch(reset("login"))
         } else {

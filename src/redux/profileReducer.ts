@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { stopSubmit } from "redux-form"
-import { profileAPI } from "../api/api"
+import { profileAPI, ResultCodes } from "../api/api"
 
 let initialState = {
     currentProfile: {} as IProfile,
@@ -31,7 +31,7 @@ export interface IPhotos {
 }
 
 
-interface IProfile {
+export interface IProfile {
     userId: number,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
@@ -103,7 +103,7 @@ export const getStatus = (id: number) => async (dispatch: Function) => {
 export const updateStatus = (status: string) => async (dispatch: Function) => {
     try {
         const data = await profileAPI.updateStatus(status)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(setStatus(status))
         }
     } catch (err) {
@@ -115,8 +115,8 @@ export const setPhoto = (file: any) => async (dispatch: Function) => {
     try {
         const response = await profileAPI.setPhoto(file)
 
-        if (response.data.resultCode === 0) {
-            dispatch(savePhotoSuccess(response.data.data.photos))
+        if (response.resultCode === ResultCodes.Success) {
+            dispatch(savePhotoSuccess(response.data))
         }
     } catch (error) {
         console.error(error);
@@ -126,7 +126,7 @@ export const setPhoto = (file: any) => async (dispatch: Function) => {
 export const setProfile = (profile: IProfile) => async (dispatch: Function, getState: Function) => {
     const response = await profileAPI.setProfile(profile)
 
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodes.Success) {
         dispatch(getProfile(getState().auth.userId))
     } else {
         stopSubmit("profile", { _error: response.data.messages[0] })

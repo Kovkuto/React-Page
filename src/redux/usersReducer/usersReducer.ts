@@ -1,9 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { StateType } from './../redux-store';
+import { IPhotos } from './../profileReducer';
+import { Action, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit"
 import { usersAPI } from "../../api/api"
 import { updateObjectInArray } from "../../utils/object-helpers"
+import { ThunkAction } from "redux-thunk"
 
 let initialState = {
-    usersData: [],
+    usersData: [] as UserType[],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
@@ -12,6 +15,14 @@ let initialState = {
 }
 
 export type UsersStateType = typeof initialState 
+
+export type UserType = {
+    id: number,
+    name: string,
+    status: string,
+    photos: IPhotos,
+    followed: boolean
+}
 
 interface ISetFollowed {
     id: number,
@@ -27,7 +38,7 @@ const usersSlice = createSlice({
     name: "usersReducer",
     initialState: initialState as UsersStateType,
     reducers: {
-        setUsers(state, action) {
+        setUsers(state, action: PayloadAction<UserType[]>) {
             state.usersData = action.payload
         },
         setFollowed: {
@@ -67,7 +78,16 @@ const usersSlice = createSlice({
 
 export const { setFollowed, setUsers, setCurrentPage, setFollowInProgress, setIsFetching, setTotalCount } = usersSlice.actions
 
-export const getUsers = (currentPage: number, pageSize: number) => async (dispatch: Function) => {
+type ActionsType =  ReturnType<typeof setIsFetching> 
+| ReturnType<typeof setFollowInProgress>
+| ReturnType<typeof setUsers>
+| ReturnType<typeof setCurrentPage>
+| ReturnType<typeof setTotalCount>
+| ReturnType<typeof setFollowed>
+
+type Thunk = ThunkAction<void, StateType, unknown, ActionsType>
+
+export const getUsers = (currentPage: number, pageSize: number): Thunk => async (dispatch) => {
     dispatch(setIsFetching(true))
     const data = await usersAPI.getUsers(currentPage, pageSize)
     dispatch(setTotalCount(data.totalCount))
@@ -75,10 +95,10 @@ export const getUsers = (currentPage: number, pageSize: number) => async (dispat
     dispatch(setIsFetching(false))
 }
 
-export const followUnfollowFlow = (id: number, followed: boolean) => async (dispatch: Function) => {
+export const followUnfollowFlow = (id: number, followed: boolean): Thunk => async (dispatch) => {
     dispatch(setFollowInProgress(id, true))
     try {
-        let apiMethod
+        let apiMethod: Function
         if (followed) apiMethod = usersAPI.follow.bind(this)
         else apiMethod = usersAPI.unfollow.bind(this)
 

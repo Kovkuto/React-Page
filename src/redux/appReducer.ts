@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, Dispatch, getType } from "@reduxjs/toolkit"
 import { auth } from "./authReducer"
 
 
