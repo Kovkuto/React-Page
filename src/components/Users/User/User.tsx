@@ -1,3 +1,4 @@
+import { Avatar } from "antd";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { IPhotos } from "../../../redux/profileReducer";
@@ -23,15 +24,15 @@ const User: React.FC<Props> = ({id, photos, followed, followInProgress, followUn
             : photos.small} />
         </NavLink>
         {followed
-          ? <button disabled={ followInProgress.some(id => id === id)}
+          ? <button disabled={ followInProgress.some(userId => userId === id)}
             onClick={() => { followUnfollowFlow(id, false) }}>Unfollow</button>
-          : <button disabled={followInProgress.some(id => id === id)}
+          : <button disabled={followInProgress.some(userId => userId === id)}
             onClick={() => { followUnfollowFlow(id, true) }}>Follow</button>
         }
       </div>
-      <div className={classes.all_description}>
-        <h3>{name}</h3>
-        <p>{status}</p>
+      <div className={classes.all_description} style={{color: "white"}}>
+        <h3 style={{color: "white"}}>{name}</h3>
+        <p style={{color: "white"}}>{status}</p>
       </div>
     </div>
   )

@@ -1,8 +1,10 @@
+import { actions, BaseThunk } from './redux-store';
+import { securityAPI } from './../api/securityAPI';
+import { authAPI } from './../api/authAPI';
 import { ResultCodesForCaptcha } from './../api/api';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { reset } from "redux-form"
 import { stopSubmit } from "redux-form"
-import { authAPI, ResultCodes, securityAPI } from "../api/api"
+import { ResultCodes } from "../api/api"
 
 
 let initialState = {
@@ -48,7 +50,9 @@ const authSlice = createSlice({
 
 export const {getCaptchaUrlSuccess, setAuthUserData} = authSlice.actions
 
-export const auth = () => async (dispatch: Function) => {
+type Thunk = BaseThunk<actions<typeof authSlice.actions>>
+
+export const auth = (): Thunk => async (dispatch) => {
     try{
         const response = await authAPI.me()
         if (response.resultCode === ResultCodes.Success) {
@@ -60,39 +64,37 @@ export const auth = () => async (dispatch: Function) => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: any) => async (dispatch: Function) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: any): Thunk => async (dispatch) => {
     try {
         const data = await authAPI.login(email, password, rememberMe, captcha)
         if (data.resultCode === ResultCodes.Success) {
-            dispatch(auth()).then()
+            dispatch(auth())
         } else {
             if (data.resultCode === ResultCodesForCaptcha.CaptchaIsRequired) {
-                console.log("captcha");
                 dispatch(getCaptcha())
             }
 
-            dispatch(stopSubmit("login", {_error: data.messages}))
+            dispatch(stopSubmit("login", {_error: data.messages}) as any)
         }
     } catch(err) {
         console.error(err);
     }
 }
 
-export const logout = () => async (dispatch: Function) => {
+export const logout = (): Thunk => async (dispatch) => {
     try{
         const data = await authAPI.logout()
         if (data.resultCode === ResultCodes.Success) {
             dispatch(setAuthUserData(null, null, null, false))
-            dispatch(reset("login"))
         } else {
-            dispatch(stopSubmit("login", {_error: data.messages}))
+            dispatch(stopSubmit("login", {_error: data.messages}) as any)
         }
     } catch(err) {
         console.error(err);
     }
 }
 
-export const getCaptcha = () => async (dispatch: Function) => {
+export const getCaptcha = (): Thunk => async (dispatch) => {
     const response = await securityAPI.getCaptchaUrl()
     const captchaUrl = response.data.url
     dispatch(getCaptchaUrlSuccess(captchaUrl))

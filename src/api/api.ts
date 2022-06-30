@@ -1,5 +1,3 @@
-import { UserType } from './../redux/usersReducer/usersReducer';
-import { IProfile, IPhotos } from './../redux/profileReducer';
 import axios from "axios";
 
 
@@ -17,88 +15,30 @@ export enum ResultCodes {
 }
 
 export enum ResultCodesForCaptcha {
-    CaptchaIsRequired = 10 
+    CaptchaIsRequired = 10
 }
 
-type UsersGet = {
-    items: UserType[]
-    totalCount: number
-    error: string | null
-}
-
-export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 5) {
-        return instance.get<UsersGet>(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
-    },
-    follow(id: number) {
-        return instance.post<Common>(`follow/${id}`).then(response => response.data)
-    },
-    unfollow(id: number) {
-        return instance.delete<Common>(`follow/${id}`).then(response => response.data)
-    }
-}
-
-export const profileAPI = {
-    getProfile(id: number) {
-        return instance.get<IProfile>(`profile/${id}`).then(response => response.data)
-    },
-    getStatus(id: number) {
-        return instance.get<string>(`profile/status/${id}`).then(response => response.data)
-    },
-    updateStatus(status: string) {
-        return instance.put<Common>(`profile/status`, {
-            status
-        }).then(response => response.data)
-    },
-    setPhoto(file: any) {
-        var formData = new FormData()
-        formData.append("image", file)
-
-        return instance.put<Common & {data: IPhotos}>(`profile/photo`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        }).then(res => res.data)
-    },
-    setProfile(data: IProfile) {
-        return instance.put<Common>("profile", data)
-    }
-}
-
-type Common = {
+export type ResponseType<D = {}> = {
     resultCode: ResultCodes | ResultCodesForCaptcha
     messages: string[]
-    data: {}
+    data: D
 }
 
-type AuthMe = Common & {
-    data: {
-        id: number
-        email: string
-        login: string
-    }
+export function hasValueStrQ<T extends { [key: string]: any }>(el: T, clearStart: boolean = false): string {
+    let str: string = ""
+    Object.keys(el).map(k => {
+        str = str + (el[k] !== undefined && el[k] !== null && el[k] !== "" ? `&${k}=${el[k]}` : "")
+    })
+
+    if (clearStart) return str.slice(1)
+    return str
 }
 
-type AuthLogin = Common & {
-    data: {
-        userId: number
-    }
-}
+export const hasValueObjQ = <T extends { [key: string]: any }>(obj: T): { [key: string]: string } => {
+    let qObj: { [key: string]: string } = {}
+    Object.keys(obj).map(k => {
+        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") qObj[k] = String(obj[k])
+    })
 
-export const authAPI = {
-    me() {
-        return instance.get<AuthMe>("auth/me").then((res) => res.data)
-    },
-    login(email: string, password: string, rememberMe: boolean, captcha = false) {
-        return instance.post<AuthLogin>("auth/login", {email, password, rememberMe, captcha}).then(response => response.data)
-    },
-    logout() {
-        return instance.delete<AuthLogin>("auth/login").then(response => response.data)
-    }
-}
-
-export const securityAPI = {
-    getCaptchaUrl() {
-        return instance.get<{url: string}>("security/get-captcha-url")
-    }
+    return qObj
 }

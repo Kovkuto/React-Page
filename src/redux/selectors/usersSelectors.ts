@@ -1,4 +1,4 @@
-import { UserType } from './../usersReducer/usersReducer';
+import { UserType, getUsers } from './../usersReducer/usersReducer';
 import { StateType } from './../redux-store';
 import { createSelector } from "reselect"
 
@@ -15,6 +15,7 @@ const getIsFetchingSelector = (state: StateType) => state.usersPage.isFetching
 
 const getFollowInProgressSelector = (state: StateType) => state.usersPage.followInProgress
 
+const getUsersFilterSelctor = (state: StateType) => state.usersPage.filter
 
 export const getUsersData = createSelector(getUsersDataSelector, users => users)
 
@@ -27,3 +28,5 @@ export const getCurrentPage = createSelector(getCurrentPageSelector, currentPage
 export const getIsFetching = createSelector(getIsFetchingSelector, isFetching => isFetching)
 
 export const getFollowInProgress = createSelector(getFollowInProgressSelector, followInProgress => followInProgress)
+
+export const getUsersFilter = createSelector(getUsersFilterSelctor, filter => filter)

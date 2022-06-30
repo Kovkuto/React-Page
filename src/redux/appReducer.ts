@@ -1,4 +1,5 @@
-import { createSlice, Dispatch, getType } from "@reduxjs/toolkit"
+import { BaseThunk, actions } from './redux-store';
+import { createSlice, Action } from "@reduxjs/toolkit"
 import { auth } from "./authReducer"
 
 
@@ -18,9 +19,11 @@ const appSlice = createSlice({
     }
 })
 
+type Thunk = BaseThunk<actions<typeof appSlice.actions>>
+
 export const {setInitialized} = appSlice.actions
 
-export const initialzeApp = () => (dispatch: Function) => {
+export const initialzeApp = (): Thunk => (dispatch) => {
     Promise.all([dispatch(auth())]).then(() => {
         dispatch(setInitialized())
     })

@@ -20,11 +20,12 @@ const Paginator: React.FC<PaginatorPropsType> = ({totalCount, pageSize, currentP
         setTotalPages(arr)
     }, [pagesCount])
     let pages: any[] = []
-    if (currentPage > 2) {
-        pages = totalPages.slice(currentPage - 3, currentPage + 2)
+    if (currentPage > 1) {
+        pages = totalPages.slice(currentPage - 2, currentPage + 2)
         pages.unshift("<--")
     } else {
         pages = totalPages.slice(0, 3)
+        if (totalPages.length > 1) pages.push("-->")
     }
     
     const pageClass = (pageNumber: number | string) => classNames({
@@ -35,7 +36,7 @@ const Paginator: React.FC<PaginatorPropsType> = ({totalCount, pageSize, currentP
         {pages.map(pageNumber => <span
         key={pageNumber}
         className={pageClass(pageNumber)}
-        onClick={() => setCurrentPage(pageNumber === "<--" ? 1 : pageNumber)}
+        onClick={() => setCurrentPage(pageNumber === "<--" ? 1 : pageNumber === "-->" ? currentPage + 1 : pageNumber)}
         >
         {pageNumber}
     </span>)}

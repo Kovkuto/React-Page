@@ -1,7 +1,9 @@
+import { actions, BaseThunk } from './redux-store';
+import { ResultCodes } from './../api/api';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { stopSubmit } from "redux-form"
-import { profileAPI, ResultCodes } from "../api/api"
+import { profileAPI } from "../api/profileAPI"
 
 let initialState = {
     currentProfile: {} as IProfile,
@@ -15,14 +17,7 @@ let initialState = {
 export type ProfileStateType = typeof initialState
 
 interface IContacts {
-    github: string,
-    vk: string,
-    facebook: string,
-    instagram: string,
-    twitter: string,
-    websit: string,
-    youtube: string,
-    mainLink: string
+    [key: string]: string
 }
 
 export interface IPhotos {
@@ -32,11 +27,12 @@ export interface IPhotos {
 
 
 export interface IProfile {
-    userId: number,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    contacts: IContacts,
+    userId: number
+    aboutMe: string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: IContacts
     photos: IPhotos
 }
 
@@ -75,8 +71,9 @@ const profileSlice = createSlice({
 })
 
 export const { addPost, setCurrentProfile, setStatus, setIsFetching, savePhotoSuccess } = profileSlice.actions
+type Thunk = BaseThunk<actions<typeof profileSlice.actions>>
 
-export const getProfile = (id: number) => async (dispatch: Function) => {
+export const getProfile = (id: number): Thunk => async (dispatch: Function) => {
     dispatch(setIsFetching(true))
     try {
         const data = await profileAPI.getProfile(id)
@@ -88,7 +85,7 @@ export const getProfile = (id: number) => async (dispatch: Function) => {
     }
 }
 
-export const getStatus = (id: number) => async (dispatch: Function) => {
+export const getStatus = (id: number): Thunk => async (dispatch: Function) => {
     dispatch(setIsFetching(true))
     try {
         const status = await profileAPI.getStatus(id)
@@ -100,7 +97,7 @@ export const getStatus = (id: number) => async (dispatch: Function) => {
     }
 }
 
-export const updateStatus = (status: string) => async (dispatch: Function) => {
+export const updateStatus = (status: string): Thunk => async (dispatch: Function) => {
     try {
         const data = await profileAPI.updateStatus(status)
         if (data.resultCode === ResultCodes.Success) {
@@ -111,7 +108,7 @@ export const updateStatus = (status: string) => async (dispatch: Function) => {
     }
 }
 
-export const setPhoto = (file: any) => async (dispatch: Function) => {
+export const setPhoto = (file: any): Thunk => async (dispatch: Function) => {
     try {
         const response = await profileAPI.setPhoto(file)
 
@@ -123,7 +120,7 @@ export const setPhoto = (file: any) => async (dispatch: Function) => {
     }
 }
 
-export const setProfile = (profile: IProfile) => async (dispatch: Function, getState: Function) => {
+export const setProfile = (profile: IProfile): Thunk => async (dispatch: Function, getState: Function) => {
     const response = await profileAPI.setProfile(profile)
 
     if (response.data.resultCode === ResultCodes.Success) {

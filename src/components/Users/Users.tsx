@@ -1,67 +1,65 @@
-import { UserType } from '../../redux/usersReducer/usersReducer';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import User from "./User/User"
 import Preloader from "../common/Preloader/Preloader";
-import { compose } from "redux";
-import { followUnfollowFlow, setCurrentPage, getUsers } from "../../redux/usersReducer";
-import { getCurrentPage, getFollowInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsersData } from "../../redux/selectors/usersSelectors";
-import { connect } from "react-redux";
-import Paginator, { PaginatorPropsType } from "../common/Paginator/Paginator";
-import { StateType } from '../../redux/redux-store';
+import { followUnfollowFlow, getUsers, setCurrentPage } from "../../redux/usersReducer";
+import { getCurrentPage, getFollowInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsersData, getUsersFilter } from "../../redux/selectors/usersSelectors";
+import { useDispatch, useSelector } from "react-redux";
+import Paginator from "../common/Paginator/Paginator";
+import UsersSearchForm from './UsersSearchForm';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { hasValueObjQ } from '../../api/api';
 
-type MapStateToProps = {
-    followInProgress: number[],
-    usersData: UserType[],
-    isFetching: boolean
-}
+// ---------------------------Component--------------------------- \\
+const Users: React.FC = React.memo(() => {
 
-type MapDispatchToProps = {
-    getUsers: (currentPage: number, pageSize: number) => void,
-    followUnfollowFlow: (id: number, followed: boolean) => void,
-    setCurrentPage: (page: number) => void
-}
+    // --------------------------Selctors-------------------------- \\
+    const totalCount = useSelector(getTotalUsersCount)
+    const pageSize = useSelector(getPageSize)
+    const usersData = useSelector(getUsersData)
+    const isFetching = useSelector(getIsFetching)
+    const followInProgress = useSelector(getFollowInProgress)
+    const filter = useSelector(getUsersFilter)
+    const currentPage = useSelector(getCurrentPage)
 
-type Props = MapStateToProps & MapDispatchToProps & PaginatorPropsType
+    const dispatch = useDispatch()
+    // -----------------------ExtraWork----------------------- \\
 
-const Users: React.FC<Props> = ({ getUsers, usersData, followInProgress, followUnfollowFlow,
-     totalCount, pageSize, currentPage, setCurrentPage, isFetching}) => {
+    const [query, setQuery] = useSearchParams()
+
+    const friend = query.get("friend") === "true" ? true : query.get("friend") === "false" ? false : null  
+    const parsedFilter = {
+        term: query.get("term") as string, 
+        friend: friend
+    }
+
     useEffect(() => {
-        getUsers(currentPage, pageSize)
-    }, [currentPage])
+        setQuery(hasValueObjQ({page: currentPage, ...filter}))
+        dispatch(getUsers(currentPage ? currentPage : 1, pageSize, parsedFilter))
+    }, [currentPage, pageSize])
+
+    useEffect(() => {
+        setQuery(hasValueObjQ({page: query.get("page"), ...parsedFilter}))
+        dispatch(setCurrentPage(isNaN(Number(query.get("page"))) ? currentPage ? currentPage : 1 : Number(query.get("page"))))
+    }, [])
 
     let usersItems = usersData.map(user => {
         return <User
             key={user.id}
             followInProgress={followInProgress}
-            followUnfollowFlow={followUnfollowFlow}
+            followUnfollowFlow={(id: number, followed: boolean) => dispatch(followUnfollowFlow(id, followed))}
             {...user}
         />
     })
+
+    // ----------------------------JSX---------------------------- \\
     return (
         <div>
-            <Paginator pageSize={pageSize} currentPage={currentPage} setCurrentPage={setCurrentPage} totalCount={totalCount}/>
+            <Paginator pageSize={pageSize} currentPage={currentPage} setCurrentPage={(pageNumber: number) => dispatch(setCurrentPage(pageNumber))} totalCount={totalCount} />
             {isFetching ? <Preloader /> : null}
-            {usersItems}
+            <div style={{ textAlign: "center" }}><UsersSearchForm /></div>
+            <div style={{ alignItems: "center" }}>{usersItems}</div>
         </div>
     )
-}
-
-
-let mapStateToProps = (state: StateType) => ({
-    usersData: getUsersData(state),
-    pageSize: getPageSize(state),
-    totalCount: getTotalUsersCount(state),
-    currentPage: getCurrentPage(state),
-    isFetching: getIsFetching(state),
-    followInProgress: getFollowInProgress(state)
 })
 
-export default compose(
-    connect<MapStateToProps, MapDispatchToProps, {}, StateType>(mapStateToProps,
-        {
-            followUnfollowFlow,
-            setCurrentPage,
-            getUsers
-        }
-    )
-)(Users)
+export default Users

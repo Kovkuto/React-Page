@@ -4,3 +4,10 @@ export const updateObjectInArray = (items: any[], itemId: any, obPropName: strin
         ...newObjProps
     } : item)
 }
+
+export const createExpectedState = <T>(state: T, changeObject: Object) => {
+    return {
+        ...state,
+        ...changeObject
+    }
+}
